@@ -1,0 +1,329 @@
+/* Card */
+
+.card {
+    background: white;
+    border: 1px solid rgba(229, 231, 235, 0.5);
+    border-radius: 16px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+.card:hover {
+    border-color: rgba(147, 197, 253, 0.8);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 25px -5px rgba(37, 99, 235, 0.05), 0 10px 10px -5px rgba(37, 99, 235, 0.02);
+}
+
+/* Detailed Club Card Specifics */
+.club-card {
+    padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.club-banner {
+    height: 100px;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    position: relative;
+}
+
+.club-banner.tech {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+.club-banner.drama {
+    background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%);
+}
+
+.club-banner.sports {
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+}
+
+.club-banner.debate {
+    background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+}
+
+.club-content {
+    padding: 24px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.club-icon-wrapper {
+    width: 72px;
+    height: 72px;
+    background: white;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin-top: -60px;
+    margin-bottom: 16px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    position: relative;
+    z-index: 10;
+    transition: transform 0.3s ease;
+}
+
+.card:hover .club-icon-wrapper {
+    transform: scale(1.05);
+}
+
+.club-meta {
+    display: flex;
+    gap: 16px;
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid #f3f4f6;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.club-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Event Calendar Styles */
+.calendar-container {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+}
+
+.calendar-header {
+    background: #f9fafb;
+    padding: 20px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: #e5e7eb;
+    gap: 1px;
+}
+
+.calendar-day-header {
+    background: #f9fafb;
+    padding: 12px;
+    text-align: center;
+    font-weight: 600;
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+.calendar-day {
+    background: white;
+    min-height: 120px;
+    padding: 10px;
+    position: relative;
+}
+
+.calendar-day.other-month {
+    background: #f9fafb;
+    color: #d1d5db;
+}
+
+.calendar-day.today {
+    background: #eff6ff;
+}
+
+.day-number {
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    border-radius: 50%;
+}
+
+.calendar-day.today .day-number {
+    background: #2563eb;
+    color: white;
+}
+
+.calendar-event {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    border-left: 3px solid transparent;
+    cursor: pointer;
+    transition: transform 0.2s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.calendar-event:hover {
+    transform: scale(1.02);
+    z-index: 10;
+    position: relative;
+}
+
+.event-tech {
+    background: #eff6ff;
+    color: #1e40af;
+    border-left-color: #2563eb;
+}
+
+.event-culture {
+    background: #ecfdf5;
+    color: #047857;
+    border-left-color: #10b981;
+}
+
+.event-sports {
+    background: #fff7ed;
+    color: #c2410c;
+    border-left-color: #f97316;
+}
+
+.event-special {
+    background: #fdf4ff;
+    color: #86198f;
+    border-left-color: #d946ef;
+}
+
+/* Grid of 3 months */
+.months-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.month-container {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+}
+
+.month-header {
+    background: #f9fafb;
+    padding: 15px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #374151;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* Button */
+
+.btn {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 12px -1px rgba(37, 99, 235, 0.3);
+}
+
+.btn-sm {
+    padding: 8px 14px;
+    font-size: 13px;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1.5px solid #3b82f6;
+    color: #3b82f6;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-outline:hover {
+    background-color: #eff6ff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1);
+}
+
+/* Add custom styles to filter buttons to give a better indicator of interactivity */
+.filter-btn {
+    padding: 6px 12px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:not(.active):hover {
+    background-color: #f3f4f6;
+    color: #4b5563 !important;
+}
+
+.filter-btn.active {
+    background-color: #eff6ff;
+    padding: 6px 16px;
+}
+
+/* Badge */
+
+.badge {
+    background-color: #e5e7eb;
+    padding: 4px 10px;
+    font-size: 12px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-top: 5px;
+    font-weight: 600;
+}
+
+.badge-blue {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.badge-green {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.badge-orange {
+    background-color: #fed7aa;
+    color: #9a3412;
+}
+
+/* Utility */
+.w-full {
+    width: 100%;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem;
+}
+
+.flex-1 {
+    flex: 1 1 0%;
+}

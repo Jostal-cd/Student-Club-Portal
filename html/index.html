@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Club Portal</title>
+    <link rel="stylesheet" href="../css/globals.css">
+    <link rel="stylesheet" href="../css/component.css">
+    <link rel="stylesheet" href="../css/layout.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <span class="logo-icon">🏛️</span> Student Club Portal
+        </div>
+
+        <ul class="nav-menu">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#clubs">Clubs</a></li>
+            <li><a href="#events">Events</a></li>
+            <li><a href="#profile">Profile</a></li>
+        </ul>
+    </nav>
+
+
+    <div class="container">
+
+        <!-- Header -->
+        <div class="header" id="home">
+            <h1>Welcome to Student Club Portal</h1>
+            <p class="muted">Discover clubs, join events, and connect with your community</p>
+        </div>
+
+        <!-- Grid Layout -->
+        <div class="grid">
+
+            <!-- Main Content -->
+            <div>
+
+                <!-- Calendar Section -->
+                <section id="calendar" class="col-span-full" style="margin-bottom: 60px;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h2>Events Calendar</h2>
+                        <div style="display: flex; gap: 10px;">
+                            <button id="prev-month-btn" class="btn-outline btn-sm">&lt; Prev</button>
+                            <span id="current-month-display"
+                                style="font-weight: 700; font-size: 1.1rem; padding: 4px 10px;">Month Year</span>
+                            <button id="next-month-btn" class="btn-outline btn-sm">Next &gt;</button>
+                        </div>
+                    </div>
+
+                    <div class="calendar-container">
+                        <div class="calendar-grid" id="calendar-days-grid">
+                            <!-- Populated dynamically by JavaScript -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- All Clubs Section -->
+                <section id="clubs">
+                    <div style="display: flex; justify-content: space-between; align-items: end; margin-bottom: 20px;">
+                        <div>
+                            <h2>Discover Clubs</h2>
+                            <p class="muted">Find your community and pursue your passions</p>
+                        </div>
+                        <div id="club-filters" style="display: flex; gap: 15px; font-size: 0.9rem; font-weight: 500;">
+                            <a href="#" class="filter-btn active" data-filter="All"
+                                style="color: #2563eb; border-bottom: 2px solid #2563eb;">All</a>
+                            <a href="#" class="filter-btn" data-filter="Tech" style="color: #6b7280;">Tech</a>
+                            <a href="#" class="filter-btn" data-filter="Arts" style="color: #6b7280;">Arts</a>
+                            <a href="#" class="filter-btn" data-filter="Sports" style="color: #6b7280;">Sports</a>
+                        </div>
+                    </div>
+
+                    <div class="clubs-grid">
+
+                        <!-- GDSC -->
+                        <div class="card club-card" data-category="Tech">
+                            <div class="club-banner tech"></div>
+                            <div class="club-content">
+                                <div class="club-icon-wrapper" style="color: #2563eb;">
+                                    <img src="../images/gdsc.png" alt="GDSC"
+                                        style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover;">
+                                </div>
+                                <h3>GDSC</h3>
+                                <p class="muted mb-2">President: Angela Dsouza</p>
+                                <p style="color: #4b5563; font-size: 0.95rem; line-height: 1.6;">
+                                    GDSC CRCE is a student-led developer community that focuses on helping students
+                                    ideate, build, and ship real-world tech solutions through hands-on events and
+                                    projects. The club runs hackathons (like Bit n Build), founder retreats (Unplug),
+                                    tech workshops, design sessions, and flagship events such as Future Forge to grow
+                                    skills across software development, product thinking, UI/UX, and data. It also
+                                    provides a structured council (GDSC GRID) where members take up roles in tech,
+                                    management, design, marketing, and outreach, creating a culture of collaboration,
+                                    ownership, and community impact on campus.
+                                </p>
+
+                                <div class="club-meta">
+                                    <div class="club-meta-item">
+                                        <span>👥</span> 50 Members
+                                    </div>
+                                </div>
+
+                                <button class="btn w-full mt-4">View Club Details</button>
+                            </div>
+                        </div>
+
+                        <!-- STUCCO -->
+                        <div class="card club-card" data-category="Arts">
+                            <div class="club-banner drama"></div>
+                            <div class="club-content">
+                                <div class="club-icon-wrapper" style="color: #be123c;">
+                                    <img src="../images/stuco.png" alt="Stuco"
+                                        style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover;">
+                                </div>
+                                <h3>Stuco</h3>
+                                <p class="muted mb-2">President: Yashdeep Kulkarni</p>
+                                <p style="color: #4b5563; font-size: 0.95rem; line-height: 1.6;">
+                                    Students' Council is the apex student body at Fr. Conceicao Rodrigues College Of
+                                    Engineering. The primary duty of the council comprises of standing strong as a
+                                    bridge of formal communication between the students, faculties and the
+                                    administration. While it seeks to address any queries and resolve issues that the
+                                    students or admin may face, the Council also relentlessly strives towards the
+                                    enrichment of the campus experience. Our hearts all beat for a single purpose which
+                                    is, "To serve and protect the honour and integrity of the council, always."
+                                </p>
+
+                                <div class="club-meta">
+                                    <div class="club-meta-item">
+                                        <span>👥</span> 65 Members
+                                    </div>
+                                </div>
+
+                                <button class="btn w-full mt-4">View Club Details</button>
+                            </div>
+                        </div>
+
+                        <!-- Project Cell -->
+                        <div class="card club-card" data-category="Sports">
+                            <div class="club-banner sports"></div>
+                            <div class="club-content">
+                                <div class="club-icon-wrapper" style="color: #15803d;">
+                                    <img src="../images/project_cell.png" alt="Project Cell"
+                                        style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover;">
+                                </div>
+                                <h3>Project Cell</h3>
+                                <p class="muted mb-2">President: David Porathur</p>
+                                <div style="color: #4b5563; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">
+                                    > Pushing the boundaries of innovation<br>
+                                    > Building the future, one project at a time<br>
+                                    > Where technology meets creativity
+                                </div>
+
+                                <div class="club-meta">
+                                    <div class="club-meta-item">
+                                        <span>👥</span> 24 Members
+                                    </div>
+                                </div>
+
+                                <button class="btn w-full mt-4">View Club Details</button>
+                            </div>
+                        </div>
+
+                        <!-- Rotaract -->
+                        <div class="card club-card" data-category="Arts">
+                            <div class="club-banner debate"></div>
+                            <div class="club-content">
+                                <div class="club-icon-wrapper" style="color: #c2410c;">
+                                    <img src="../images/rotaract.png" alt="Rotaract"
+                                        style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover;">
+                                </div>
+                                <h3>Rotaract</h3>
+                                <p class="muted mb-2">President: Johnson Serrao</p>
+                                <p style="color: #4b5563; font-size: 0.95rem; line-height: 1.6;">
+                                    Rotaract CRCE is where ideas become impactful actions and individuals grow into
+                                    confident leaders. Affiliated with Rotary International, we’re a student-led
+                                    community driven by service, innovation, and growth. Through diverse initiatives, we
+                                    aim to make a difference — on campus, in society, and within ourselves. Whether
+                                    leading teams or forming connections, every experience here shapes both personal and
+                                    collective transformation. At Rotaract CRCE, growth isn’t just about achievements —
+                                    it’s about who we become along the way.
+                                </p>
+
+                                <div class="club-meta">
+                                    <div class="club-meta-item">
+                                        <span>👥</span> 45 Members
+                                    </div>
+                                </div>
+
+                                <button class="btn w-full mt-4">View Club Details</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+
+                <!-- Popular Clubs -->
+                <div class="sidebar-section">
+                    <h3>Popular Clubs</h3>
+
+                    <div class="card">
+                        <div class="sidebar-row">
+                            <div>
+                                <p><strong>GDSC</strong></p>
+                                <p class="muted">50 members</p>
+                            </div>
+                            <button class="btn-outline btn-sm">Join</button>
+                        </div>
+
+                        <div class="sidebar-row">
+                            <div>
+                                <p><strong>Stuco</strong></p>
+                                <p class="muted">65 members</p>
+                            </div>
+                            <button class="btn-outline btn-sm">Join</button>
+                        </div>
+
+                        <div class="sidebar-row">
+                            <div>
+                                <p><strong>Project Cell</strong></p>
+                                <p class="muted">24 members</p>
+                            </div>
+                            <button class="btn-outline btn-sm">Join</button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Upcoming Events -->
+                <div class="sidebar-section">
+                    <h3>📅 Upcoming Events</h3>
+
+                    <div class="card">
+                        <div class="announcement">
+                            <p><strong>Heart and soul run 8</strong></p>
+                            <p class="muted">March 1st</p>
+                        </div>
+
+                        <div class="announcement">
+                            <p><strong>Unplug</strong></p>
+                            <p class="muted">March 29-31st</p>
+                        </div>
+
+                        <div class="announcement">
+                            <p><strong>Welcome All Students!</strong></p>
+                            <p class="muted">July 17, 2025</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="sidebar-section">
+                    <h3>📈 Quick Stats</h3>
+
+                    <div class="card">
+                        <div class="stat">
+                            <p class="stat-number">18</p>
+                            <p class="muted">Active Clubs</p>
+                        </div>
+
+                        <div class="stat">
+                            <p class="stat-number">2000+</p>
+                            <p class="muted">Total Members</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </div>
+
+
+    <script src="../js/calendar.js"></script>
+    <script src="../js/interactions.js"></script>
+</body>
+
+</html>
