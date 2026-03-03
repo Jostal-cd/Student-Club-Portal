@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     const prevMonthBtn = document.getElementById("prev-month-btn");
     const nextMonthBtn = document.getElementById("next-month-btn");
     const currentMonthDisplay = document.getElementById("current-month-display");
@@ -6,15 +6,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Start with current date (align to current dates and time)
     let currentDate = new Date();
+    let events = [];
 
-    // Events to show on the calendar
-    const events = [
-        { day: 1, month: 2, title: "🏃 Heart & Soul Run", class: "event-sports" },
-        { day: 29, month: 2, title: "🎸 Unplug", class: "event-culture" },
-        { day: 30, month: 2, title: "🎸 Unplug", class: "event-culture" },
-        { day: 31, month: 2, title: "🎸 Unplug", class: "event-culture" },
-        { day: 17, month: 6, title: "👋 Welcome Students!", class: "event-culture" }
-    ];
+    // Fetch live events from API
+    try {
+        const res = await fetch("http://localhost:3000/api/events");
+        if (res.ok) {
+            events = await res.json();
+        }
+    } catch (err) {
+        console.error("Failed to load events", err);
+    }
 
     function renderCalendar() {
         if (!calendarDaysGrid || !currentMonthDisplay) return;
@@ -71,14 +73,18 @@ document.addEventListener("DOMContentLoaded", () => {
             daySpan.textContent = i;
             dayCell.appendChild(daySpan);
 
-            // Add static events if there are any
+            // Add dynamic events if they match year, month, day
             events.forEach(evt => {
-                const eventMonthMatches = evt.month === undefined || evt.month === month;
-                if (evt.day === i && eventMonthMatches) {
-                    const eventDiv = document.createElement("div");
-                    eventDiv.className = `calendar-event ${evt.class}`;
-                    eventDiv.textContent = evt.title;
-                    dayCell.appendChild(eventDiv);
+                const eventDate = new Date(evt.date);
+                if (eventDate.getFullYear() === year && eventDate.getMonth() === month && eventDate.getDate() === i) {
+                    const eventLink = document.createElement("a");
+                    eventLink.className = `calendar-event event-culture`; // default styling class
+                    eventLink.textContent = evt.title;
+                    eventLink.style.display = 'block';
+                    eventLink.style.textDecoration = 'none';
+                    eventLink.style.color = 'inherit';
+                    eventLink.href = evt.registrationLink ? evt.registrationLink : `register.html?id=${evt._id}`;
+                    dayCell.appendChild(eventLink);
                 }
             });
 

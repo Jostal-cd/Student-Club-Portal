@@ -23,6 +23,9 @@
             <li><a href="#clubs">Clubs</a></li>
             <li><a href="#events">Events</a></li>
             <li><a href="#profile">Profile</a></li>
+            <li><a href="html/login.html" class="btn"
+                    style="padding: 6px 15px; background-color: #4b5563; border-radius: 6px; color: white;">Portal
+                    Login</a></li>
         </ul>
     </nav>
 
@@ -70,8 +73,8 @@
                             <a href="#" class="filter-btn active" data-filter="All"
                                 style="color: #2563eb; border-bottom: 2px solid #2563eb;">All</a>
                             <a href="#" class="filter-btn" data-filter="Tech" style="color: #6b7280;">Tech</a>
+                            <a href="#" class="filter-btn" data-filter="Culture" style="color: #6b7280;">Culture</a>
                             <a href="#" class="filter-btn" data-filter="Arts" style="color: #6b7280;">Arts</a>
-                            <a href="#" class="filter-btn" data-filter="Sports" style="color: #6b7280;">Sports</a>
                         </div>
                     </div>
                     <p class="muted" style="margin-bottom: 20px;">Find your community and pursue your passions</p>
@@ -140,8 +143,8 @@
                         </div>
 
                         <!-- Project Cell -->
-                        <div class="card club-card" data-category="Sports">
-                            <div class="club-banner sports"></div>
+                        <div class="card club-card" data-category="Tech">
+                            <div class="club-banner tech"></div>
                             <div class="club-content">
                                 <div class="club-icon-wrapper" style="color: #15803d;">
                                     <img src="../images/project_cell.png" alt="Project Cell"
@@ -166,7 +169,7 @@
                         </div>
 
                         <!-- Rotaract -->
-                        <div class="card club-card" data-category="Arts">
+                        <div class="card club-card" data-category="Culture">
                             <div class="club-banner debate"></div>
                             <div class="club-content">
                                 <div class="club-icon-wrapper" style="color: #c2410c;">
@@ -237,27 +240,11 @@
                 </div>
 
                 <!-- Upcoming Events -->
-                <div class="sidebar-section">
+                <div class="sidebar-section" id="events">
                     <h3>📅 Upcoming Events</h3>
-
-                    <div class="card">
-                        <div class="announcement">
-                            <p><strong>Heart and Soul Run 8</strong></p>
-                            <p class="muted">March 1st</p>
-                        </div>
-
-                        <div class="announcement">
-                            <p><strong>Unplug</strong></p>
-                            <p class="muted">March 29-31st</p>
-                        </div>
-
-                        <div class="announcement">
-                            <p><strong>Welcome All Students!</strong></p>
-                            <p class="muted">July 17, 2025</p>
-                        </div>
-
+                    <div class="card" id="upcoming-events-sidebar">
+                        <p class="muted" style="font-size:0.85rem;">Loading events...</p>
                     </div>
-
                 </div>
 
                 <!-- Quick Stats -->
@@ -288,6 +275,40 @@
 
     <script src="../js/calendar.js"></script>
     <script src="../js/interactions.js"></script>
+    <script>
+        // Dynamically populate the "Upcoming Events" sidebar from the API
+        (async function () {
+            try {
+                const res = await fetch('http://localhost:3000/api/events');
+                if (!res.ok) return;
+                const events = await res.json();
+
+                const upcoming = events
+                    .filter(e => e.status === 'approved' && new Date(e.date) >= new Date(new Date().setHours(0, 0, 0, 0)))
+                    .sort((a, b) => new Date(a.date) - new Date(b.date))
+                    .slice(0, 5);
+
+                const sidebar = document.getElementById('upcoming-events-sidebar');
+                if (!sidebar) return;
+
+                if (upcoming.length === 0) {
+                    sidebar.innerHTML = '<p class="muted" style="font-size:0.85rem;">No upcoming events at this time.</p>';
+                    return;
+                }
+
+                sidebar.innerHTML = upcoming.map(e => {
+                    const d = new Date(e.date);
+                    const label = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' });
+                    return `<div class="announcement">
+                    <p><strong>${e.title}</strong></p>
+                    <p class="muted">${label}</p>
+                </div>`;
+                }).join('');
+            } catch (err) {
+                console.error('Sidebar events fetch error', err);
+            }
+        })();
+    </script>
 </body>
 
 </html>

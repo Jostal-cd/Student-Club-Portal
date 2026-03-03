@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Dashboard - Student Club Portal</title>
+    <link rel="stylesheet" href="../css/globals.css">
+    <link rel="stylesheet" href="../css/component.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f3f4f6;
+            min-height: 100vh;
+        }
+
+        .dashboard-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 24px 60px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 28px;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ---- Section headings ---- */
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 6px;
+        }
+
+        .section-subtitle {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 20px;
+        }
+
+        /* ---- Form ---- */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #374151;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            background: #fff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* ---- Event items ---- */
+        .event-item {
+            background: #fff;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 16px 18px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            transition: box-shadow 0.2s;
+        }
+
+        .event-item:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+        }
+
+        .event-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .event-title-text {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #111827;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 4px;
+        }
+
+        .event-date-text {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .event-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        /* ---- Status badges ---- */
+        .status-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-approved {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* ---- Calendar (right column) ---- */
+        .calendar-card {
+            background: #fff;
+            border-radius: 12px;
+            border: 1.5px solid #e5e7eb;
+            padding: 20px;
+        }
+
+        .calendar-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .calendar-nav-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #111827;
+        }
+
+        .btn-nav {
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .btn-nav:hover {
+            background: #e5e7eb;
+        }
+
+        .cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+        }
+
+        .cal-header-cell {
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            padding: 4px 0 8px;
+        }
+
+        .cal-cell {
+            min-height: 44px;
+            padding: 4px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            position: relative;
+        }
+
+        .cal-cell.other-month .cal-day-num {
+            color: #d1d5db;
+        }
+
+        .cal-cell.today .cal-day-num {
+            background: #2563eb;
+            color: #fff;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cal-day-num {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #374151;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2px;
+        }
+
+        .cal-event-dot {
+            background: #2563eb;
+            color: #fff;
+            font-size: 0.6rem;
+            border-radius: 4px;
+            padding: 1px 3px;
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        /* ---- Reject reason ---- */
+        .reject-reason {
+            font-size: 0.78rem;
+            color: #dc2626;
+            margin-top: 4px;
+        }
+
+        /* ---- Empty state ---- */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-logo">
+            <span class="logo-icon">🏛️</span> Club Dashboard
+        </div>
+        <ul class="nav-menu">
+            <li><span id="welcome-msg" style="font-weight:600; color:#374151;"></span></li>
+            <li>
+                <a href="/" style="color:#6b7280; font-size:0.9rem; text-decoration:none; margin-right:12px;">← Home</a>
+            </li>
+            <li><a href="#" id="logout-btn" class="btn-outline btn-sm">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="dashboard-wrapper">
+
+        <div class="dashboard-grid">
+
+            <!-- LEFT: Create Event + My Events -->
+            <div>
+                <!-- Create Event -->
+                <div class="card" style="margin-bottom: 28px;">
+                    <h2 class="section-title">📅 Create New Event</h2>
+                    <p class="section-subtitle">Submit an event for faculty approval. Approved events appear on the
+                        public calendar.</p>
+                    <form id="create-event-form">
+                        <div class="form-group">
+                            <label for="event-title">Event Title</label>
+                            <input type="text" id="event-title" required placeholder="e.g., Tech Workshop 2026">
+                        </div>
+                        <div class="form-group">
+                            <label for="event-date">Event Date</label>
+                            <input type="date" id="event-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-link">Registration Link <span
+                                    style="font-weight:400; color:#9ca3af;">(Optional)</span></label>
+                            <input type="url" id="event-link" placeholder="https://...">
+                        </div>
+                        <button type="submit" class="btn" style="width:100%;">Submit for Approval</button>
+                    </form>
+                </div>
+
+                <!-- My Events -->
+                <div>
+                    <h2 class="section-title">📋 Your Submitted Events</h2>
+                    <p class="section-subtitle">Track the status of all events you've submitted</p>
+                    <div id="events-list">
+                        <div class="empty-state">Loading your events...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Calendar -->
+            <div>
+                <div class="calendar-card">
+                    <div class="calendar-nav">
+                        <button class="btn-nav" id="dash-prev-btn">&#8249; Prev</button>
+                        <span class="calendar-nav-title" id="dash-month-display">—</span>
+                        <button class="btn-nav" id="dash-next-btn">Next &#8250;</button>
+                    </div>
+                    <div class="cal-grid" id="dash-cal-grid"></div>
+                </div>
+
+                <!-- Upcoming approved events list below calendar -->
+                <div class="card" style="margin-top: 20px;">
+                    <h3 style="font-weight:700; font-size:1rem; margin-bottom:12px;">🗓 Upcoming Approved Events</h3>
+                    <div id="upcoming-events-list">
+                        <p class="muted" style="font-size:0.85rem;">Loading...</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../js/dashboard-club.js"></script>
+    <script>
+        // ---- Mini Calendar for Club Dashboard ----
+        (async function () {
+            let calDate = new Date();
+            let approvedEvents = [];
+
+            try {
+                const token = localStorage.getItem('token');
+                const res = await fetch('http://localhost:3000/api/events', {
+                    headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+                });
+                if (res.ok) {
+                    const all = await res.json();
+                    // Show only approved events on the visual calendar
+                    approvedEvents = all.filter(e => e.status === 'approved');
+                }
+            } catch (e) { console.error('Calendar fetch error', e); }
+
+            // Populate upcoming list
+            const upcoming = approvedEvents
+                .filter(e => new Date(e.date) >= new Date())
+                .sort((a, b) => new Date(a.date) - new Date(b.date))
+                .slice(0, 5);
+
+            const upcomingEl = document.getElementById('upcoming-events-list');
+            if (upcoming.length === 0) {
+                upcomingEl.innerHTML = '<p class="muted" style="font-size:0.85rem;">No upcoming approved events.</p>';
+            } else {
+                upcomingEl.innerHTML = upcoming.map(e => {
+                    const d = new Date(e.date);
+                    const label = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                    return `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f3f4f6;font-size:0.85rem;">
+                    <span style="font-weight:600;color:#111827;">${e.title}</span>
+                    <span style="color:#6b7280;white-space:nowrap;margin-left:8px;">${label}</span>
+                </div>`;
+                }).join('');
+            }
+
+            function renderDashCal() {
+                const grid = document.getElementById('dash-cal-grid');
+                const monthDisplay = document.getElementById('dash-month-display');
+                if (!grid) return;
+                grid.innerHTML = '';
+
+                const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+                days.forEach(d => {
+                    const h = document.createElement('div');
+                    h.className = 'cal-header-cell';
+                    h.textContent = d;
+                    grid.appendChild(h);
+                });
+
+                const year = calDate.getFullYear();
+                const month = calDate.getMonth();
+                const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                monthDisplay.textContent = `${monthNames[month]} ${year}`;
+
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                const prevDays = new Date(year, month, 0).getDate();
+                const today = new Date();
+
+                // Prev month padding
+                for (let i = 0; i < firstDay; i++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cal-cell other-month';
+                    const num = document.createElement('div');
+                    num.className = 'cal-day-num';
+                    num.textContent = prevDays - firstDay + i + 1;
+                    cell.appendChild(num);
+                    grid.appendChild(cell);
+                }
+
+                // Current month
+                for (let i = 1; i <= daysInMonth; i++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cal-cell';
+                    const isToday = today.getFullYear() === year && today.getMonth() === month && today.getDate() === i;
+                    if (isToday) cell.classList.add('today');
+
+                    const num = document.createElement('div');
+                    num.className = 'cal-day-num';
+                    num.textContent = i;
+                    cell.appendChild(num);
+
+                    approvedEvents.forEach(evt => {
+                        const ed = new Date(evt.date);
+                        if (ed.getFullYear() === year && ed.getMonth() === month && ed.getDate() === i) {
+                            const dot = document.createElement('div');
+                            dot.className = 'cal-event-dot';
+                            dot.textContent = evt.title;
+                            dot.title = evt.title;
+                            cell.appendChild(dot);
+                        }
+                    });
+
+                    grid.appendChild(cell);
+                }
+
+                // Fill remaining
+                const total = firstDay + daysInMonth;
+                for (let i = 1; i <= (42 - total); i++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cal-cell other-month';
+                    const num = document.createElement('div');
+                    num.className = 'cal-day-num';
+                    num.textContent = i;
+                    cell.appendChild(num);
+                    grid.appendChild(cell);
+                }
+            }
+
+            document.getElementById('dash-prev-btn').addEventListener('click', () => {
+                calDate.setMonth(calDate.getMonth() - 1);
+                renderDashCal();
+            });
+            document.getElementById('dash-next-btn').addEventListener('click', () => {
+                calDate.setMonth(calDate.getMonth() + 1);
+                renderDashCal();
+            });
+
+            renderDashCal();
+        })();
+    </script>
+</body>
+
+</html>

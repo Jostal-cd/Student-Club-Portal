@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Registration - Student Club Portal</title>
+    <link rel="stylesheet" href="../css/globals.css">
+    <link rel="stylesheet" href="../css/component.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <style>
+        body {
+            background-color: #f3f4f6;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .register-container {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .success-msg {
+            color: #16a34a;
+            background: #dcfce3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-msg {
+            color: #ef4444;
+            background: #fee2e2;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="register-container">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <span class="logo-icon" style="font-size: 2rem;">🎉</span>
+            <h2 style="margin-top: 10px;">Event Registration</h2>
+            <p class="muted" id="event-title-display">Loading Event...</p>
+        </div>
+
+        <div id="success-message" class="success-msg">Successfully registered for the event!</div>
+        <div id="error-message" class="error-msg">Error occurred.</div>
+
+        <form id="register-form">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="studentClass">Class (e.g., TE-AIDS)</label>
+                <input type="text" id="studentClass" required>
+            </div>
+            <div class="form-group">
+                <label for="rollNo">Roll Number</label>
+                <input type="text" id="rollNo" required>
+            </div>
+            <button type="submit" class="btn w-full" id="submit-btn">Register</button>
+        </form>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="index.html" class="muted" style="text-decoration: none; font-size: 0.9rem;">&larr; Back to
+                Calendar</a>
+        </div>
+    </div>
+
+    <script src="../js/register.js"></script>
+</body>
+
+</html>
