@@ -1,37 +1,39 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const User = require('./models/User');
 require('dotenv').config();
+const User = require('./models/User');
 
-mongoose.connect(process.env.MONGO_URI).then(async () => {
-    console.log('MongoDB connected');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/student-club-portal')
+    .then(async () => {
+        console.log('MongoDB connected for seeding...');
+        await User.deleteMany({});
+        console.log('Old users cleared.');
 
-    // Clear existing users
-    await User.deleteMany({});
+        const createHash = async (password) => {
+            const salt = await bcrypt.genSalt(10);
+            return await bcrypt.hash(password, salt);
+        };
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash('password123', salt);
+        const passwordHash = await createHash('password123');
 
-    const users = [
-        { username: 'gdsc_club', password: hashedPassword, role: 'club' },
-        { username: 'stuco_club', password: hashedPassword, role: 'club' },
-        { username: 'rotaract_club', password: hashedPassword, role: 'club' },
-        { username: 'projectcell_club', password: hashedPassword, role: 'club' },
-        { username: 'faculty_admin', password: hashedPassword, role: 'faculty' },
-    ];
+        const users = [
+            { username: 'admin', password: passwordHash, role: 'admin' },
+            { username: 'club_faculty', password: passwordHash, role: 'faculty' },
+            { username: 'gdsc_club', password: passwordHash, role: 'club', clubName: 'GDSC' },
+            { username: 'stuco_club', password: passwordHash, role: 'club', clubName: 'STUCO' },
+            { username: 'rotaract_club', password: passwordHash, role: 'club', clubName: 'Rotaract' },
+            { username: 'project_cell_club', password: passwordHash, role: 'club', clubName: 'Project Cell' }
+        ];
 
-    await User.insertMany(users);
+        for (let u of users) {
+            const newUser = new User(u);
+            await newUser.save();
+        }
 
-    console.log('\n✅ Database seeded successfully!\n');
-    console.log('Club Accounts (password: password123)');
-    console.log('  gdsc_club');
-    console.log('  stuco_club');
-    console.log('  rotaract_club');
-    console.log('  projectcell_club');
-    console.log('\nFaculty Account (password: password123)');
-    console.log('  faculty_admin\n');
-    process.exit();
-}).catch(err => {
-    console.error(err);
-    process.exit(1);
-});
+        console.log('Successfully seeded database with correctly hashed passwords.');
+        process.exit(0);
+    })
+    .catch(err => {
+        console.error('Error seeding DB:', err);
+        process.exit(1);
+    });
