@@ -7,13 +7,12 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Ensure uploads folder exists
+// File upload support for event reports lives here.
 const uploadDir = path.join(__dirname, '../uploads');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir);
 }
 
-// Multer Storage config
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, uploadDir);
@@ -34,7 +33,6 @@ router.post('/', auth, async (req, res) => {
     }
     const { title, date, registrationLink } = req.body;
     try {
-        // Enforce max 3 events per day constraint
         const targetDate = new Date(date);
         const startOfDay = new Date(targetDate.setHours(0,0,0,0));
         const endOfDay = new Date(targetDate.setHours(23,59,59,999));
@@ -67,19 +65,15 @@ router.get('/', async (req, res) => {
             try {
                 const decoded = jwt.verify(token.split(' ')[1], process.env.JWT_SECRET || 'secret');
                 if (decoded.user.role === 'faculty' || decoded.user.role === 'admin') {
-                    // Faculty and Admin sees all events, sorted by date
                     const events = await Event.find().populate('createdBy', 'username').sort({ createdAt: -1 });
                     return res.json(events);
                 } else if (decoded.user.role === 'club') {
-                    // Club sees their own events
                     const events = await Event.find({ createdBy: decoded.user.id }).sort({ date: 1 });
                     return res.json(events);
                 }
             } catch (err) {
-                // invalid token, fallback to public
             }
         }
-        // Public view: only approved AND visible events
         const events = await Event.find({ status: 'approved', isVisible: true }).sort({ date: 1 });
         res.json(events);
     } catch (err) {
@@ -192,7 +186,6 @@ router.post('/:id/upload-report', auth, upload.single('reportFile'), async (req,
         let event = await Event.findById(req.params.id);
         if (!event) return res.status(404).json({ msg: 'Event not found' });
         
-        // Save the file URL mapped to uploads folder
         if (req.file) {
             event.reportFile = '/uploads/' + req.file.filename;
             await event.save();

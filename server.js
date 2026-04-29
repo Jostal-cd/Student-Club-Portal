@@ -7,6 +7,7 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Main server setup: middleware, static assets, database connection, and route mounting.
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'client', 'dist')));
@@ -22,7 +23,8 @@ const eventRoutes = require('./routes/events');
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
 
-app.get('*', (req, res) => {
+// React handles every non-API route in the built client app.
+app.get(/.*/, (req, res) => {
    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
 });
 

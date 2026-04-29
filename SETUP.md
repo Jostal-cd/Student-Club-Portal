@@ -37,7 +37,7 @@ The following are available in the local DB for testing role-based dashboard map
 | Role | Username | Password |
 |---|---|---|
 | **Admin** | `admin` | `password123` |
-| **Faculty (CS)** | `cs_faculty` | `password123` |
+| **Faculty (CS)** | `club_faculty` | `password123` |
 | **Club (GDSC)** | `gdsc_club` | `password123` |
 | **Club (STUCCo)** | `stucco_club` | `password123` |
 

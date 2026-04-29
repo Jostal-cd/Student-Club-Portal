@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 require('dotenv').config();
 const User = require('./models/User');
 
+// Seed script for demo users and local development logins.
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/student-club-portal')
     .then(async () => {
         console.log('MongoDB connected for seeding...');
@@ -18,8 +19,10 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/student-c
 
         const users = [
             { username: 'admin', password: passwordHash, role: 'admin' },
-            { username: 'club_faculty', password: passwordHash, role: 'faculty' },
+            { username: 'cs_faculty', password: passwordHash, role: 'faculty' },
             { username: 'gdsc_club', password: passwordHash, role: 'club', clubName: 'GDSC' },
+            { username: 'stucco_club', password: passwordHash, role: 'club', clubName: 'STUCCo' },
+            { username: 'club_faculty', password: passwordHash, role: 'faculty' },
             { username: 'stuco_club', password: passwordHash, role: 'club', clubName: 'STUCO' },
             { username: 'rotaract_club', password: passwordHash, role: 'club', clubName: 'Rotaract' },
             { username: 'project_cell_club', password: passwordHash, role: 'club', clubName: 'Project Cell' }
@@ -37,3 +40,4 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/student-c
         console.error('Error seeding DB:', err);
         process.exit(1);
     });
+ 

@@ -35,7 +35,8 @@ function DashboardClub() {
       const res = await fetch('/api/events', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      const data = await res.json();
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : [];
       setMyEvents(data); // These are specifically my events since route GET /api/events filters for club role
     } catch (err) {
       console.error(err);
@@ -49,7 +50,8 @@ function DashboardClub() {
     // If we want clubs to see EVERYONE'S events to know schedules, we can fetch the public approved events via /api/events without auth
     try {
       const res = await fetch('/api/events'); // Fetch public view (approved only). If they need ALL pending events across clubs too, backend route tweak is needed.
-      const data = await res.json();
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : [];
       setAllEvents(data);
     } catch(err) {
       console.error(err);
@@ -65,7 +67,8 @@ function DashboardClub() {
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(newEvent)
       });
-      const data = await res.json();
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
       if (!res.ok) {
          return alert(data.msg || "Failed to create event");
       }
@@ -83,7 +86,8 @@ function DashboardClub() {
       const res = await fetch(`/api/events/${eventId}/registrations`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      const data = await res.json();
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : [];
       setRegistrations(data);
       setViewingRegFor(eventId);
     } catch (err) {
@@ -122,7 +126,8 @@ function DashboardClub() {
         body: formData
       });
       if (res.ok) {
-        const data = await res.json();
+        const text = await res.text();
+        const data = text ? JSON.parse(text) : {};
         setMyEvents(myEvents.map(ev => ev._id === eventId ? { ...ev, reportFile: data.reportFile } : ev));
         setUploadFile(null);
         alert("Report uploaded successfully! Note: Only Admin and Faculty can access it.");

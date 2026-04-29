@@ -23,8 +23,9 @@ function Home() {
 
   useEffect(() => {
     fetch('/api/events')
-      .then(res => res.json())
-      .then(data => {
+      .then(res => res.text())
+      .then(text => {
+        const data = text ? JSON.parse(text) : [];
         setEvents(data);
         setLoadingEvents(false);
       })
@@ -49,7 +50,8 @@ function Home() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(regData)
       });
-      const data = await res.json();
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
       if (res.ok) {
         alert("Registration Successful!");
         setRegisteringFor(null);

@@ -22,7 +22,8 @@ function DashboardFaculty() {
   const fetchEvents = async (token) => {
     try {
       const res = await fetch('/api/events', { headers: { 'Authorization': `Bearer ${token}` } });
-      const data = await res.json();
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : [];
       setEvents(data);
     } catch (err) { } finally { setLoading(false); }
   };
@@ -43,7 +44,8 @@ function DashboardFaculty() {
     try {
       const token = localStorage.getItem('token');
       const res = await fetch(`/api/events/${eventId}/registrations`, { headers: { 'Authorization': `Bearer ${token}` } });
-      const data = await res.json();
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : [];
       setRegistrations(data);
       setViewingRegFor(eventId);
     } catch (err) { }

@@ -4,6 +4,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+// Keep login compatible with older seeded usernames.
+const USERNAME_ALIASES = {
+    stucco_club: ['stuco_club'],
+    cs_faculty: ['club_faculty']
+};
+
 // @route   POST api/auth/signup
 // @desc    Register a new user
 // @access  Public
@@ -37,12 +43,13 @@ router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        let user = await User.findOne({ username });
-        if (!user) return res.status(400).json({ msg: 'Invalid Credentials' });
+        const candidateUsernames = [username, ...(USERNAME_ALIASES[username] || [])];
+        let user = await User.findOne({ username: { $in: candidateUsernames } });
+        if (!user) return res.status(400).json({ msg: 'Invalid Credentials', message: 'Invalid Credentials' });
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch && password !== user.password) { // fallback for unhashed seed passwords
-            return res.status(400).json({ msg: 'Invalid Credentials' });
+            return res.status(400).json({ msg: 'Invalid Credentials', message: 'Invalid Credentials' });
         }
 
         const payload = { user: { id: user.id, role: user.role } };
@@ -52,7 +59,7 @@ router.post('/login', async (req, res) => {
         });
     } catch (err) {
         console.error(err.message);
-        res.status(500).json({ msg: 'Server Error', error: err.message });
+        res.status(500).json({ msg: 'Server Error', message: 'Server Error', error: err.message });
     }
 });
 

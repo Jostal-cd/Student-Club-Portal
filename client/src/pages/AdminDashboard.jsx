@@ -25,7 +25,8 @@ function AdminDashboard() {
       const res = await fetch('/api/events', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      const data = await res.json();
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : [];
       setEvents(data);
     } catch (err) {
       console.error(err);
@@ -54,7 +55,8 @@ function AdminDashboard() {
       const res = await fetch(`/api/events/${eventId}/registrations`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      const data = await res.json();
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : [];
       setRegistrations(data);
       setViewingRegFor(eventId);
     } catch (err) {
@@ -93,7 +95,8 @@ function AdminDashboard() {
         body: formData
       });
       if (res.ok) {
-        const data = await res.json();
+        const text = await res.text();
+        const data = text ? JSON.parse(text) : {};
         setEvents(events.map(ev => ev._id === eventId ? { ...ev, reportFile: data.reportFile } : ev));
         setUploadFile(null);
         alert("File uploaded successfully!");

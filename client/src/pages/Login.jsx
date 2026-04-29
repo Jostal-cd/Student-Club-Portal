@@ -42,7 +42,8 @@ function Login() {
           body: JSON.stringify({ username, password })
       });
 
-      const data = await res.json();
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
       if (!res.ok) throw new Error(data.msg || 'Login failed');
 
       localStorage.setItem('token', data.token);

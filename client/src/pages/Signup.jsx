@@ -44,7 +44,8 @@ function Signup() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
-      const data = await res.json();
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
       if (!res.ok) throw new Error(data.msg || 'Signup failed');
       
       alert('Signup successful! Please login.');
